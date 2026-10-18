@@ -1,0 +1,213 @@
+.page {
+  --ink: #0f172a;
+  --ink-muted: hsl(215 25% 32%);
+  --teal: #0f766e;
+  --teal-hover: #115e59;
+  --teal-deep: hsl(178 80% 12%);
+  --on-dark: #f8fafc;
+  --on-dark-muted: hsl(178 30% 84%);
+  color: var(--ink);
+  background: #f8fafc;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--teal-deep);
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.fallback {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 35%, hsl(178 60% 22%), transparent 70%),
+    linear-gradient(180deg, hsl(178 80% 16%), var(--teal-deep) 55%, hsl(180 85% 8%));
+}
+
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: hsl(178 80% 12% / 0.25);
+}
+
+.wash {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 58% 40% at 50% 52%, rgb(248 250 252 / 0.86), rgb(248 250 252 / 0.72) 60%, rgb(248 250 252 / 0.3) 85%, transparent),
+    linear-gradient(180deg, rgb(248 250 252 / 0.45), transparent 22%);
+}
+
+.backdrop[data-mode='fallback'] .video,
+.backdrop[data-mode='fallback'] .overlay,
+.backdrop[data-mode='fallback'] .wash {
+  display: none;
+}
+
+.hero:has(.backdrop[data-mode='fallback']) {
+  --ink: var(--on-dark);
+  --ink-muted: var(--on-dark-muted);
+  --emphasis: #5eead4;
+}
+
+.ink {
+  color: var(--ink);
+}
+
+.serif {
+  font-family: var(--font-serif), ui-serif, Georgia, serif;
+  font-weight: 400;
+}
+
+.title {
+  font-size: 48px;
+  line-height: 0.95;
+  letter-spacing: -0.03075em;
+  color: var(--ink);
+}
+
+.title em {
+  font-style: normal;
+  color: var(--emphasis, var(--teal-hover));
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 80px;
+  }
+}
+
+.lead {
+  max-width: 670px;
+  line-height: 1.625;
+  color: var(--ink-muted);
+}
+
+.navLink {
+  color: var(--ink);
+  border-radius: 4px;
+  text-underline-offset: 6px;
+}
+
+.navLink:hover {
+  text-decoration: underline;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 9999px;
+  background: var(--teal);
+  color: #fff;
+  font-weight: 500;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.pill:hover {
+  background: var(--teal-hover);
+  transform: scale(1.03);
+}
+
+.ghost {
+  color: var(--ink);
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: transform 0.3s ease;
+}
+
+.ghost:hover {
+  transform: scale(1.03);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+.focus:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgb(255 255 255 / 0.85);
+}
+
+.ctaMain {
+  padding: 20px 56px;
+  font-size: 16px;
+}
+
+.step {
+  border-top: 1px solid rgb(15 118 110 / 0.25);
+}
+
+.stepNumber {
+  color: var(--teal);
+}
+
+.muted {
+  color: hsl(215 25% 32%);
+}
+
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: fade-rise 0.8s ease-out both;
+}
+
+.delay1 {
+  animation-delay: 0.2s;
+}
+
+.delay2 {
+  animation-delay: 0.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+
+  .pill,
+  .ghost {
+    transition: none;
+  }
+
+  .pill:hover,
+  .ghost:hover {
+    transform: none;
+  }
+
+  .backdrop .video,
+  .backdrop .overlay,
+  .backdrop .wash {
+    display: none;
+  }
+
+  .hero {
+    --ink: var(--on-dark);
+    --ink-muted: var(--on-dark-muted);
+    --emphasis: #5eead4;
+  }
+}

@@ -1,0 +1,28 @@
+services:
+  falkordb:
+    image: falkordb/falkordb:latest
+    ports: ["${FALKORDB_HOST_PORT:-6379}:6379", "3000:3000"]
+    volumes: ["falkordb_data:/var/lib/falkordb/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  api:
+    build: ./backend
+    env_file:
+      - path: ./backend/.env
+        required: false
+    environment:
+      FALKORDB_HOST: falkordb
+      FALKORDB_PORT: "6379"
+      REGISTRY_PATH: /app/.data/registry.db
+      DEMO_REPO_PATH: /data/demo
+    volumes: ["api_data:/app/.data", "./data/demo:/data/demo:ro"]
+    depends_on:
+      falkordb:
+        condition: service_healthy
+    ports: ["8000:8000"]
+volumes:
+  falkordb_data: {}
+  api_data: {}
